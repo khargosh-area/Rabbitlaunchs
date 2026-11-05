@@ -1,4 +1,4 @@
-<H1 align="center">Rabbit Launcher 3</H1>
+<H1 align="center">Rabbit Launcher v0.1</H1>
 
 
 <p align="center">
@@ -14,7 +14,7 @@
 - [About](#about)
 - [Features](#features)
 - [Supported Mod Loaders](#supported-mod-loaders)
-- [Getting Rabbit Launcher](#getting-hyper-launcher)
+- [Getting Rabbit Launcher](#getting-rabbit-launcher)
 - [Building](#building)
 - [Current Roadmap](#current-roadmap)
 - [Known Issues](#known-issues)
@@ -26,7 +26,7 @@
 
 ## About
 
-Rabbit Launcher 3 is a fast and customizable Minecraft: Java Edition launcher for Android, forked from [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher) and ultimately based on [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher).
+Rabbit Launcher v0.1 is a fast and customizable Minecraft: Java Edition launcher for Android, forked from [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher) and ultimately based on [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher).
 
 It can run almost every version of Minecraft — from `rd-132211` to the latest snapshots (including Combat Test versions) — and supports modloaders such as [Forge](https://files.minecraftforge.net/), [Fabric](http://fabricmc.net/), NeoForge, and Quilt, as well as mods like [OptiFine](https://optifine.net).
 
@@ -63,9 +63,9 @@ Rabbit Launcher is designed for:
 
 ## Getting Rabbit Launcher
 
-You can get Rabbit Launcher 3 via three methods:
+You can get Rabbit Launcher v0.1 via three methods:
 
-1. **Automatic Builds** — Get development builds from [GitHub Actions](https://github.com/RabbitLauncher/RabbitLauncher/actions).
+1. **Automatic Builds** — Get development builds from [GitHub Actions](https://github.com/khargosh-area/Rabbitlaunchs/actions).
 
 2. **Google Play** — Coming soon.
 
@@ -78,7 +78,7 @@ You can get Rabbit Launcher 3 via three methods:
 Build the launcher (it will automatically download all required components):
 
 ```bash
-./gradlew :Hyper_Launcher_v3:assembleDebug
+./gradlew :Rabbit_Launcher:assembleDebug
 ```
 
 > Replace `./gradlew` with `.\gradlew.bat` if you are building on Windows.
@@ -109,7 +109,7 @@ Build the launcher (it will automatically download all required components):
 
 ## License
 
-Rabbit Launcher 3 is licensed under [GNU LGPLv3](LICENSE).
+Rabbit Launcher v0.1 is licensed under [GNU LGPLv3](LICENSE).
 
 ---
 
@@ -123,7 +123,7 @@ Any code change should be submitted as a pull request. The description should ex
 
 ## Credits & Third Party Components and Their Licenses (if available)
 
-Rabbit Launcher 3 is a fork of [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), which is itself based on [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher). Full credit goes to both teams and all upstream contributors.
+Rabbit Launcher v0.1 is a fork of [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), which is itself based on [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher). Full credit goes to both teams and all upstream contributors.
 
 - [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher): [GNU LGPLv3 License](https://github.com/MojoLauncher/MojoLauncher/blob/v3_openjdk/LICENSE)
 - [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher): [GNU LGPLv3 License](https://github.com/PojavLauncherTeam/PojavLauncher/blob/v3_openjdk/LICENSE)
