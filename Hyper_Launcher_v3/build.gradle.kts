@@ -27,14 +27,14 @@ fun getCFApiKey(): String {
     return "DUMMY"
 }
 
-fun getHyperLauncherApiKey(): String {
-    val key = System.getenv("HYPER_LAUNCHER_API_KEY")
+fun getRabbitLauncherApiKey(): String {
+    val key = System.getenv("RABBIT_LAUNCHER_API_KEY")
     if (key != null) return key
-    val keyFile = File("../hyper_launcher_api_key.txt")
+    val keyFile = File("../rabbit_launcher_api_key.txt")
     if (keyFile.canRead() && keyFile.isFile) {
         return keyFile.readText().trim()
     }
-    val rootKeyFile = File("hyper_launcher_api_key.txt")
+    val rootKeyFile = File("rabbit_launcher_api_key.txt")
     if (rootKeyFile.canRead() && rootKeyFile.isFile) {
         return rootKeyFile.readText().trim()
     }
@@ -56,10 +56,10 @@ configurations {
     }
 }
 
-val hyperVersionNumber = localProperties.getProperty("VERSION_NUMBER")
-    ?: (project.findProperty("VERSION_NUMBER")?.toString() ?: "1.0.0")
-val hyperVersionSuffix = localProperties.getProperty("VERSION_NAME")
-    ?: (project.findProperty("VERSION_NAME")?.toString() ?: "saturn")
+val rabbitVersionNumber = localProperties.getProperty("VERSION_NUMBER")
+    ?: (project.findProperty("VERSION_NUMBER")?.toString() ?: "0.1")
+val rabbitVersionSuffix = localProperties.getProperty("VERSION_NAME")
+    ?: (project.findProperty("VERSION_NAME")?.toString() ?: "")
 
 val isBundle = gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
 
@@ -96,10 +96,10 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
             ?: 1
         versionCode = propVersionCode
 
-        versionName = if (hyperVersionSuffix.isBlank()) hyperVersionNumber else "$hyperVersionNumber-$hyperVersionSuffix"
+        versionName = if (rabbitVersionSuffix.isBlank()) rabbitVersionNumber else "$rabbitVersionNumber-$rabbitVersionSuffix"
 
         resValue("string", "curseforge_api_key", getCFApiKey())
-        resValue("string", "hyper_launcher_api_key", getHyperLauncherApiKey())
+        resValue("string", "rabbit_launcher_api_key", getRabbitLauncherApiKey())
         resValue("string", "dc_key", getDcKey())
         buildConfigField("String", "DC_KEY", "\"${getDcKey()}\"")
         resValue("string", "group_id", "git.artdeell")
@@ -369,7 +369,7 @@ androidComponents.onVariants { variant ->
         val abiFilter = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
         val archSuffix = if (abiFilter != null) "-$abiFilter" else ""
         @Suppress("UnstableApiUsage")
-        output.outputFileName.set(output.versionName.map { "hyper_launcher-$it$archSuffix.apk" })
+        output.outputFileName.set(output.versionName.map { "rabbit_launcher-$it$archSuffix.apk" })
     }
 
     registrar.projectJarDependency(project(":forge_installer"), "components/forge_installer")
