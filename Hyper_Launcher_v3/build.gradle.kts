@@ -38,7 +38,7 @@ fun getRabbitLauncherApiKey(): String {
     if (rootKeyFile.canRead() && rootKeyFile.isFile) {
         return rootKeyFile.readText().trim()
     }
-    return "AIzaSy_HYPER_LAUNCHER_SECRET_KEY_PLACEHOLDER"
+    return "AIzaSy_RABBIT_LAUNCHER_SECRET_KEY_PLACEHOLDER"
 }
 
 fun getDcKey(): String {
@@ -92,7 +92,7 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
 
         val propVersionCode = localProperties.getProperty("VERSION_CODE")?.toIntOrNull()
             ?: project.findProperty("VERSION_CODE")?.toString()?.toIntOrNull()
-            ?: localProperties.getProperty("hyperversioncode")?.toIntOrNull()
+            ?: localProperties.getProperty("rabbitversioncode")?.toIntOrNull()
             ?: 1
         versionCode = propVersionCode
 
