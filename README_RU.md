@@ -1,8 +1,8 @@
-<H1 align="center">Hyper Launcher 3</H1>
+<H1 align="center">Rabbit Launcher v0.1</H1>
 
 
 <p align="center">
-  <img src="https://yt3.googleusercontent.com/RC9iOqHVK1Q6Cun4MsxPt1D0TNWVM-8dPgdlCekFq7werQ3Uxm7H0VUz4yqho1-zGBn4-JfU=s160-c-k-c0x00ffffff-no-rj" width="150" height="150" alt="Hyper Launcher logo"><br><br>
+  <img src="https://yt3.googleusercontent.com/RC9iOqHVK1Q6Cun4MsxPt1D0TNWVM-8dPgdlCekFq7werQ3Uxm7H0VUz4yqho1-zGBn4-JfU=s160-c-k-c0x00ffffff-no-rj" width="150" height="150" alt="Rabbit Launcher logo"><br><br>
   <a href="https://crowdin.com/project/pojavlauncher"><img src="https://badges.crowdin.net/pojavlauncher/localized.svg" alt="Crowdin"></a>
   <a href="https://discord.gg/UR5Wfage"><img src="https://img.shields.io/discord/1365346109131722753.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2" alt="Discord"></a>
 </p>
@@ -13,7 +13,7 @@
 - [О проекте](#о-проекте)
 - [Возможности](#возможности)
 - [Поддерживаемые загрузчики модов](#поддерживаемые-загрузчики-модов)
-- [Как получить Hyper Launcher](#как-получить-hyper-launcher)
+- [Как получить Rabbit Launcher](#как-получить-rabbit-launcher)
 - [Сборка](#сборка)
 - [Текущий план развития](#текущий-план-развития)
 - [Известные проблемы](#известные-проблемы)
@@ -25,11 +25,11 @@
 
 ## О проекте
 
-Hyper Launcher 3 — быстрый и настраиваемый лаунчер Minecraft: Java Edition для Android, форк [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), в основе которого лежит [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher).
+Rabbit Launcher v0.1 — быстрый и настраиваемый лаунчер Minecraft: Java Edition для Android, форк [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), в основе которого лежит [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher).
 
 Он способен запускать практически любую версию Minecraft — от `rd-132211` до последних снапшотов (включая версии Combat Test) — и поддерживает такие загрузчики модов, как [Forge](https://files.minecraftforge.net/), [Fabric](http://fabricmc.net/), NeoForge и Quilt, а также моды вроде [OptiFine](https://optifine.net).
 
-Hyper Launcher создан для того, чтобы обеспечить:
+Rabbit Launcher создан для того, чтобы обеспечить:
 - Плавный геймплей Minecraft Java на Android
 - Современный дизайн Material UI 3
 - Более удобную работу с модпаками
@@ -61,11 +61,11 @@ Hyper Launcher создан для того, чтобы обеспечить:
 
 ---
 
-## Как получить Hyper Launcher
+## Как получить Rabbit Launcher
 
-Получить Hyper Launcher 3 можно тремя способами:
+Получить Rabbit Launcher v0.1 можно тремя способами:
 
-1. **Автоматические сборки** — получите тестовые сборки из [GitHub Actions](https://github.com/HyperLauncher/HyperLauncher/actions).
+1. **Автоматические сборки** — получите тестовые сборки из [GitHub Actions](https://github.com/khargosh-area/Rabbitlaunchs/actions).
 
 2. **Google Play** — скоро.
 
@@ -78,7 +78,7 @@ Hyper Launcher создан для того, чтобы обеспечить:
 Соберите лаунчер (все необходимые компоненты будут загружены автоматически):
 
 ```bash
-./gradlew :Hyper_Launcher_v3:assembleDebug
+./gradlew :Rabbit_Launcher:assembleDebug
 ```
 
 > Замените `./gradlew` на `.\gradlew.bat`, если сборка выполняется в Windows.
@@ -110,7 +110,7 @@ Hyper Launcher создан для того, чтобы обеспечить:
 
 ## Лицензия
 
-Hyper Launcher 3 распространяется под лицензией [GNU LGPLv3](LICENSE).
+Rabbit Launcher v0.1 распространяется под лицензией [GNU LGPLv3](LICENSE).
 
 ---
 
@@ -124,7 +124,7 @@ Hyper Launcher 3 распространяется под лицензией [GNU
 
 ## Благодарности и сторонние компоненты (и их лицензии, если доступны)
 
-Hyper Launcher 3 — форк [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), который, в свою очередь, основан на [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher). Вся заслуга принадлежит обеим командам и всем участникам разработки выше по цепочке.
+Rabbit Launcher v0.1 — форк [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher), который, в свою очередь, основан на [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher). Вся заслуга принадлежит обеим командам и всем участникам разработки выше по цепочке.
 
 - [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher): [лицензия GNU LGPLv3](https://github.com/MojoLauncher/MojoLauncher/blob/v3_openjdk/LICENSE)
 - [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher): [лицензия GNU LGPLv3](https://github.com/PojavLauncherTeam/PojavLauncher/blob/v3_openjdk/LICENSE)
