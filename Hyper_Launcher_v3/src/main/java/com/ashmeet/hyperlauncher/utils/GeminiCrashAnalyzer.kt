@@ -25,7 +25,7 @@ object GeminiCrashAnalyzer {
         if (!customKey.isNullOrBlank()) {
             return customKey.trim()
         }
-        return runCatching { context.getString(R.string.hyper_launcher_api_key) }.getOrDefault("")
+        return runCatching { context.getString(R.string.rabbit_launcher_api_key) }.getOrDefault("")
     }
 
     /**
