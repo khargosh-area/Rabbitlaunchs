@@ -22,8 +22,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name='RabbitLauncher'
-include ':Hyper_Launcher_v3'
-project(':Hyper_Launcher_v3').projectDir = new File(settingsDir, 'Hyper_Launcher_v3')
+include ':Rabbit_Launcher'
+project(':Rabbit_Launcher').projectDir = new File(settingsDir, 'Hyper_Launcher_v3')
 
 include ':forge_installer'
 include ':NoBlocklist'
