@@ -49,7 +49,7 @@ class PojavApplication : Application() {
 
                 FileUtils.ensureParentDirectory(crashFile)
                 PrintStream(crashFile).use { crashStream ->
-                    crashStream.append("Hyper crash report\n")
+                    crashStream.append("Rabbit Launcher crash report\n")
                     crashStream.append(" - Time: ").append(DateFormat.getDateTimeInstance().format(Date()))
                         .append("\n")
                     crashStream.append(" - Device: ").append(Build.PRODUCT).append(" ").append(Build.MODEL)
@@ -137,7 +137,7 @@ class PojavApplication : Application() {
     }
 
     companion object {
-        const val CRASH_REPORT_TAG = "HyperCrashReport"
+        const val CRASH_REPORT_TAG = "RabbitLauncherCrashReport"
 
         @JvmField
         val sExecutorService: ExecutorService = ThreadPoolExecutor(
