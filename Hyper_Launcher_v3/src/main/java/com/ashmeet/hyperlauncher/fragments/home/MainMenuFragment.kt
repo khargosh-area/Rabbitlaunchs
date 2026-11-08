@@ -19,6 +19,7 @@ import com.ashmeet.hyperlauncher.screens.home.MainMenuFragmentCompose
 import com.ashmeet.hyperlauncher.theme.PojavTheme
 import net.ashmeet.hyperlauncher.R
 import com.ashmeet.hyperlauncher.activity.CustomControlsActivity
+import com.ashmeet.hyperlauncher.activity.RabbitBridgeActivity
 import com.ashmeet.hyperlauncher.utils.HyperUtils
 import com.ashmeet.hyperbackend.contracts.OpenDocumentWithExtension
 import com.ashmeet.hyperlauncher.extra.ExtraConstants
@@ -86,6 +87,7 @@ class MainMenuFragment : Fragment() {
                                 true
                             )
                         },
+                        onRabbitBridgeClick = { startActivity(Intent(requireContext(), RabbitBridgeActivity::class.java)) },
                         onContentInstallerClick = {
                             HyperUtils.swapFragment(
                                 requireActivity(),
