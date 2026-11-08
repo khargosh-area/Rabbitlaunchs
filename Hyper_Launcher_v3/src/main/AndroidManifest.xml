@@ -70,6 +70,10 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="true"/>
         <activity
+            android:name="com.ashmeet.hyperlauncher.activity.RabbitBridgeActivity"
+            android:exported="false"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation|uiMode" />
+        <activity
             android:name="com.ashmeet.hyperlauncher.activity.ImportControlActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation|uiMode"
             android:exported="true"
