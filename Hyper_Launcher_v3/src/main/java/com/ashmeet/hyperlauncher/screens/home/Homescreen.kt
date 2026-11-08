@@ -103,6 +103,7 @@ fun MainMenuFragmentCompose(
     onContentInstallerClick: () -> Unit = {},
     onInstanceDirectoryClick: () -> Unit = {},
     onRecordingsGalleryClick: () -> Unit = {},
+    onRabbitBridgeClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val isPreview = LocalInspectionMode.current
@@ -220,6 +221,7 @@ fun MainMenuFragmentCompose(
                             onContentInstallerClick = onContentInstallerClick,
                             onInstanceDirectoryClick = onInstanceDirectoryClick,
                             onRecordingsGalleryClick = onRecordingsGalleryClick,
+                            onRabbitBridgeClick = onRabbitBridgeClick,
                             onInstallJarClick = onInstallJarClick,
                             onShareLogsClick = onShareLogsClick,
                             onOpenFilesClick = onOpenFilesClick
@@ -272,6 +274,7 @@ fun MainMenuFragmentCompose(
                                     onContentInstallerClick = onContentInstallerClick,
                                     onInstanceDirectoryClick = onInstanceDirectoryClick,
                                     onRecordingsGalleryClick = onRecordingsGalleryClick,
+                                    onRabbitBridgeClick = onRabbitBridgeClick,
                                     onInstallJarClick = onInstallJarClick,
                                     onShareLogsClick = onShareLogsClick,
                                     onOpenFilesClick = onOpenFilesClick
@@ -315,6 +318,7 @@ private fun ActionCardsContent(
     onContentInstallerClick: () -> Unit,
     onInstanceDirectoryClick: () -> Unit,
     onRecordingsGalleryClick: () -> Unit,
+    onRabbitBridgeClick: () -> Unit,
     onInstallJarClick: () -> Unit,
     onShareLogsClick: () -> Unit,
     onOpenFilesClick: () -> Unit
@@ -384,6 +388,15 @@ private fun ActionCardsContent(
                 )
             }
 
+            ActionCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                title = "Rabbit Bridge • Import Profile",
+                icon = Icons.Rounded.Download,
+                position = CardPosition.MIDDLE,
+                onClick = onRabbitBridgeClick
+            )
             ActionCard(
                 modifier = Modifier
                     .fillMaxWidth()
