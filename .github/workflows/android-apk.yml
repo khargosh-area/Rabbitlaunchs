@@ -70,6 +70,26 @@ jobs:
           mk.write_text(source)
           PY
 
+          # Align GLFW's MojoExec calls with the API exposed by the restored Hyperexec revision.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("glfw/src/egl_context.c")
+          source = p.read_text()
+          old = """            if (ctxconfig->client == GLFW_OPENGL_API)
+                window->context.egl.client = mojoexec_acq_gl_handle();
+            else
+                window->context.egl.client = mojoexec_acq_gles_handle();
+
+            if (!window->context.egl.client)
+                window->context.egl.client = mojoexec_acq_egl_handle();
+"""
+          new = """            window->context.egl.client = mojoexec_acq_egl_handle();
+"""
+          if old not in source:
+              raise SystemExit("Expected GLFW/Hyperexec API mismatch block was not found")
+          p.write_text(source.replace(old, new, 1))
+          PY
+
           # Use the Android Gradle Plugin version already declared by the root build.
           sed -i "s/id 'com.android.library' version '8.11.1'/id 'com.android.library'/" mojoexec/jni_bindings/build.gradle
 
