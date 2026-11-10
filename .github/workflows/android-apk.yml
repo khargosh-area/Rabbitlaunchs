@@ -40,19 +40,23 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # The hosted runner already provides Android command-line tools.
-      # Avoid setup-android@v3: it attempts to install the removed "tools" package.
+      # The runner publishes Android 37 as android-37.0, while this project's
+      # Android Gradle Plugin requests the legacy android-37 directory.
       - name: Accept Android SDK licenses
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Install Android SDK components
         run: |
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install \
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "$SDKMANAGER" --install \
             "platform-tools" \
-            "platforms;android-37" \
+            "platforms;android-37.0" \
             "build-tools;37.0.0" \
             "ndk;30.0.16248370" \
             "cmake;3.22.1"
+          if [ -d "$ANDROID_HOME/platforms/android-37.0" ] && [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
 
       - name: Build Rabbit Launcher
         run: |
