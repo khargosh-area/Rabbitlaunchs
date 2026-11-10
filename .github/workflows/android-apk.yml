@@ -1,0 +1,61 @@
+name: Rabbit Launcher APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/android-apk.yml"
+      - "Hyper_Launcher_v3/**"
+      - "ColorPicker/**"
+      - "NoBlocklist/**"
+      - "glfw/**"
+      - "mojoexec/**"
+      - "sdl/**"
+      - "gradle/**"
+      - "gradlew"
+      - "settings.gradle"
+      - "build.gradle.kts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rabbit-launcher-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ARM64 debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK components
+        run: |
+          sdkmanager "platform-tools" "platforms;android-37" "build-tools;37.0.0" "ndk;30.0.16248370" "cmake;3.22.1"
+
+      - name: Build Rabbit Launcher
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :Rabbit_Launcher:assembleFullDebug --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rabbit-Launcher-0.1-beta-ARM64-debug
+          path: Hyper_Launcher_v3/build/outputs/apk/full/debug/rabbit_launcher-0.1-beta-arm64-v8a.apk
+          if-no-files-found: error
+          retention-days: 30
