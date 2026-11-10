@@ -56,38 +56,18 @@ jobs:
             rm -rf NoBlocklist
             git clone --depth 1 https://github.com/MojoLauncher/NoBlocklist.git NoBlocklist
           fi
-          # Hyperexec's utility functions are referenced by mojoexec.c and vulkan_loader.c,
-          # but the upstream SDL Android.mk omits utils.c from its native source list.
+          # The detached Hyperexec revision implements mojoexec_make_bigcore_affine()
+          # in affinity.c. SDL's Android.mk omits it, so include that source explicitly.
           python3 - <<'PY'
           from pathlib import Path
           mk = Path("sdl/Android.mk")
           source = mk.read_text()
-          needle = "../mojoexec/mojoexec.c \\\n"
+          needle = "\t../mojoexec/mojoexec.c \\\n"
           if needle not in source:
-              raise SystemExit("Expected mojoexec source entry was not found in sdl/Android.mk")
-          if "../mojoexec/utils.c" not in source:
-              source = source.replace(needle, needle + "\t../mojoexec/utils.c \\\n", 1)
+              raise SystemExit("Expected SDL MojoExec source entry was not found in sdl/Android.mk")
+          if "../mojoexec/affinity.c" not in source:
+              source = source.replace(needle, needle + "\t../mojoexec/affinity.c \\\n", 1)
           mk.write_text(source)
-          PY
-
-          # Align GLFW's MojoExec calls with the API exposed by the restored Hyperexec revision.
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path("glfw/src/egl_context.c")
-          source = p.read_text()
-          old = """            if (ctxconfig->client == GLFW_OPENGL_API)
-                window->context.egl.client = mojoexec_acq_gl_handle();
-            else
-                window->context.egl.client = mojoexec_acq_gles_handle();
-
-            if (!window->context.egl.client)
-                window->context.egl.client = mojoexec_acq_egl_handle();
-"""
-          new = """            window->context.egl.client = mojoexec_acq_egl_handle();
-"""
-          if old not in source:
-              raise SystemExit("Expected GLFW/Hyperexec API mismatch block was not found")
-          p.write_text(source.replace(old, new, 1))
           PY
 
           # Use the Android Gradle Plugin version already declared by the root build.
