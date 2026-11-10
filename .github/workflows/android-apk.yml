@@ -102,10 +102,26 @@ jobs:
           chmod +x ./gradlew
           ./gradlew :Rabbit_Launcher:assembleFullDebug --no-daemon
 
+      - name: Locate and stage ARM64 debug APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifact
+          mapfile -t candidates < <(find Hyper_Launcher_v3/build/outputs/apk -type f -path '*/full/debug/*' -name '*arm64-v8a*.apk' -print | sort)
+          if [ "${#candidates[@]}" -ne 1 ]; then
+            echo "Expected exactly one full/debug ARM64 APK; found ${#candidates[@]}."
+            echo "Available APK outputs:"
+            find Hyper_Launcher_v3/build/outputs/apk -type f -name '*.apk' -print || true
+            exit 1
+          fi
+          cp "${candidates[0]}" artifact/rabbit_launcher-0.1-beta-arm64-v8a.apk
+          echo "Staged: ${candidates[0]}"
+          ls -lh artifact/rabbit_launcher-0.1-beta-arm64-v8a.apk
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Rabbit-Launcher-0.1-beta-ARM64-debug
-          path: Hyper_Launcher_v3/build/outputs/apk/full/debug/rabbit_launcher-0.1-beta-arm64-v8a.apk
+          path: artifact/rabbit_launcher-0.1-beta-arm64-v8a.apk
           if-no-files-found: error
           retention-days: 30
