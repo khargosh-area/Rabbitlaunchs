@@ -56,6 +56,20 @@ jobs:
             rm -rf NoBlocklist
             git clone --depth 1 https://github.com/MojoLauncher/NoBlocklist.git NoBlocklist
           fi
+          # Hyperexec's utility functions are referenced by mojoexec.c and vulkan_loader.c,
+          # but the upstream SDL Android.mk omits utils.c from its native source list.
+          python3 - <<'PY'
+          from pathlib import Path
+          mk = Path("sdl/Android.mk")
+          source = mk.read_text()
+          needle = "\\t../mojoexec/mojoexec.c \\\\\n"
+          if needle not in source:
+              raise SystemExit("Expected mojoexec source entry was not found in sdl/Android.mk")
+          if "../mojoexec/utils.c" not in source:
+              source = source.replace(needle, needle + "\\t../mojoexec/utils.c \\\\\n", 1)
+          mk.write_text(source)
+          PY
+
           # Use the Android Gradle Plugin version already declared by the root build.
           sed -i "s/id 'com.android.library' version '8.11.1'/id 'com.android.library'/" mojoexec/jni_bindings/build.gradle
 
