@@ -62,11 +62,11 @@ jobs:
           from pathlib import Path
           mk = Path("sdl/Android.mk")
           source = mk.read_text()
-          needle = "\\t../mojoexec/mojoexec.c \\\\\n"
+          needle = "../mojoexec/mojoexec.c \\\n"
           if needle not in source:
               raise SystemExit("Expected mojoexec source entry was not found in sdl/Android.mk")
           if "../mojoexec/utils.c" not in source:
-              source = source.replace(needle, needle + "\\t../mojoexec/utils.c \\\\\n", 1)
+              source = source.replace(needle, needle + "\t../mojoexec/utils.c \\\n", 1)
           mk.write_text(source)
           PY
 
