@@ -50,7 +50,7 @@ jobs:
           fi
           if [ ! -f mojoexec/jni_bindings/build.gradle ]; then
             rm -rf mojoexec
-            git clone --depth 1 https://github.com/ashmeet-op/Hyperexec.git mojoexec
+            git clone --depth 1 --branch detached https://github.com/ashmeet-op/Hyperexec.git mojoexec
           fi
           if [ ! -f NoBlocklist/build.gradle ]; then
             rm -rf NoBlocklist
