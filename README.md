@@ -122,7 +122,7 @@ The ARM64 debug APK is generated at:
 Hyper_Launcher_v3/build/outputs/apk/full/debug/rabbit_launcher-0.1-beta-arm64-v8a.apk
 ```
 
-The exact output name can change if the version settings or ABI configuration are changed. The current build configuration uses version name `0.1-beta`, version code `31`, and package ID `net.khargosh.rabbitlaunch.ddbug` for the debug variant.
+The exact output name can change if the version settings or ABI configuration are changed. The current build configuration uses version name `0.1-beta`, version code `31`, and package ID `net.khargosh.rabbitlauncher.debug` for the debug variant.
 
 ## 🐇 Rabbit Bridge
 

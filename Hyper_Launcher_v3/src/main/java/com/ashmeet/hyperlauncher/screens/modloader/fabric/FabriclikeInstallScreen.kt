@@ -1,6 +1,5 @@
 package com.ashmeet.hyperlauncher.screens.modloader.fabric
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
@@ -30,20 +26,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalConfiguration
 import com.ashmeet.hyperlauncher.components.menu.HyperDropdownTextField
 import com.ashmeet.hyperlauncher.components.switch.DefaultSwitch
 import com.ashmeet.hyperlauncher.screens.settings.preferences.LauncherPreferences
-import com.ashmeet.hyperlauncher.utils.installer.ModrinthVersion
 import com.ashmeet.hyperlauncher.utils.translation.translatedText
 import net.ashmeet.hyperlauncher.R
 import com.ashmeet.hyperbackend.modloaders.FabricVersion
-import com.ashmeet.hyperbackend.modloaders.modpacks.api.ModrinthService
 
 @Composable
 fun FabriclikeInstallScreen(
@@ -52,33 +44,11 @@ fun FabriclikeInstallScreen(
     isInstalling: Boolean,
     gameVersions: List<FabricVersion>,
     loaderVersions: List<FabricVersion>,
-    onInstall: (gameVersion: String, loaderVersion: String, isHyperClientEnabled: Boolean, hyperClientVersionId: String?) -> Unit
+    onInstall: (gameVersion: String, loaderVersion: String) -> Unit
 ) {
     var selectedGameVersion by remember { mutableStateOf<FabricVersion?>(null) }
     var selectedLoaderVersion by remember { mutableStateOf<FabricVersion?>(null) }
     var onlyStable by remember { mutableStateOf(true) }
-    var isHyperClientEnabled by remember { mutableStateOf(false) }
-
-    var hyperClientVersions by remember { mutableStateOf<List<ModrinthVersion>>(emptyList()) }
-    var selectedHyperClientVersion by remember { mutableStateOf<ModrinthVersion?>(null) }
-    var isHyperClientLoading by remember { mutableStateOf(false) }
-
-    LaunchedEffect(selectedGameVersion) {
-        val gv = selectedGameVersion?.version ?: return@LaunchedEffect
-        isHyperClientLoading = true
-        try {
-            val allVersions = ModrinthService.getProjectVersions("hyperclient")
-            val compatible = allVersions.filter { it.gameVersions.contains(gv) && it.loaders.any { l -> l.equals("fabric", ignoreCase = true) } }
-            hyperClientVersions = compatible
-            selectedHyperClientVersion = compatible.firstOrNull()
-        } catch (_: Exception) {
-            hyperClientVersions = emptyList()
-            selectedHyperClientVersion = null
-        } finally {
-            isHyperClientLoading = false
-        }
-    }
-
     val filteredGameVersions = remember(gameVersions, onlyStable) {
         if (onlyStable) gameVersions.filter { it.stable } else gameVersions
     }
@@ -139,15 +109,6 @@ fun FabriclikeInstallScreen(
                         onItemSelected = { selectedLoaderVersion = it }
                     )
 
-                    if (loaderName.lowercase() == "fabric" && isHyperClientEnabled && hyperClientVersions.isNotEmpty()) {
-                        HyperDropdownTextField(
-                            label = "Hyper Client Version",
-                            items = hyperClientVersions,
-                            selectedItem = selectedHyperClientVersion,
-                            itemLabel = { it.name },
-                            onItemSelected = { selectedHyperClientVersion = it }
-                        )
-                    }
                 }
             }
 
@@ -176,52 +137,6 @@ fun FabriclikeInstallScreen(
                         )
                     }
 
-                    if (loaderName.lowercase() == "fabric") {
-                        val isAvailable = hyperClientVersions.isNotEmpty() || isHyperClientLoading
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(enabled = isAvailable) { isHyperClientEnabled = !isHyperClientEnabled }
-                                .padding(8.dp)
-                                .alpha(if (isAvailable) 1f else 0.5f)
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        text = translatedText("Hyper Client"),
-                                        style = MaterialTheme.typography.bodyLarge
-                                    )
-                                    if (!isAvailable && !isHyperClientLoading) {
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Icon(
-                                            imageVector = Icons.Rounded.Warning,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.error,
-                                            modifier = Modifier.size(20.dp)
-                                        )
-                                    }
-                                }
-                                Text(
-                                    text = if (!isAvailable && !isHyperClientLoading)
-                                        "Not available for ${selectedGameVersion?.version ?: "this version"}"
-                                    else "",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = if (!isAvailable && !isHyperClientLoading) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            if (isHyperClientLoading) {
-                                LoadingIndicator(modifier = Modifier.size(20.dp))
-                            } else {
-                                DefaultSwitch(
-                                    checked = isHyperClientEnabled && isAvailable,
-                                    enabled = isAvailable,
-                                    onCheckedChange = { isHyperClientEnabled = it }
-                                )
-                            }
-                        }
-                    }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -230,7 +145,7 @@ fun FabriclikeInstallScreen(
                             val gv = selectedGameVersion?.version
                             val lv = selectedLoaderVersion?.version
                             if (gv != null && lv != null) {
-                                onInstall(gv, lv, isHyperClientEnabled, selectedHyperClientVersion?.id)
+                                onInstall(gv, lv)
                             }
                         },
                         enabled = !isLoading && !isInstalling && selectedGameVersion != null && selectedLoaderVersion != null,

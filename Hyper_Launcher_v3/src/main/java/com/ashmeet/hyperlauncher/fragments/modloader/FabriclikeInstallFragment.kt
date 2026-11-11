@@ -25,10 +25,6 @@ import com.ashmeet.hyperbackend.modloaders.ModloaderListenerProxy
 import com.ashmeet.hyperbackend.progresskeeper.ProgressKeeper
 import java.io.File
 import java.io.IOException
-import com.ashmeet.hyperbackend.modloaders.modpacks.api.ModrinthService
-import java.net.URL
-import android.util.Log
-import com.ashmeet.hyperbackend.instances.Instance
 
 abstract class FabriclikeInstallFragment(
     private val mFabriclikeUtils: FabriclikeUtils,
@@ -55,8 +51,8 @@ abstract class FabriclikeInstallFragment(
                         isInstalling = isInstalling,
                         gameVersions = gameVersions,
                         loaderVersions = loaderVersions,
-                        onInstall = { gameVersion, loaderVersion, isHyperClientEnabled, hyperClientVersionId ->
-                            performInstallation(gameVersion, loaderVersion, isHyperClientEnabled, hyperClientVersionId)
+                        onInstall = { gameVersion, loaderVersion ->
+                            performInstallation(gameVersion, loaderVersion)
                         }
                     )
                 }
@@ -94,7 +90,7 @@ abstract class FabriclikeInstallFragment(
         }
     }
 
-    private fun performInstallation(gameVersion: String, loaderVersion: String, isHyperClientEnabled: Boolean, hyperClientVersionId: String?) {
+    private fun performInstallation(gameVersion: String, loaderVersion: String) {
         if (ProgressKeeper.hasOngoingTasks()) {
             Toast.makeText(requireContext(), R.string.tasks_ongoing, Toast.LENGTH_LONG).show()
             return
@@ -114,20 +110,10 @@ abstract class FabriclikeInstallFragment(
                     return@launch
                 }
                 val instance = Instances.createInstance({ i ->
-                    if (isHyperClientEnabled && mFabriclikeUtils.name.lowercase() == "fabric") {
-                        i.name = "Hyper Client"
-                        i.icon = "default"
-                        i.hyperClientVersion = hyperClientVersionId
-                    } else {
-                        i.name = mFabriclikeUtils.name
-                        i.icon = mFabriclikeUtils.iconName
-                    }
+                    i.name = mFabriclikeUtils.name
+                    i.icon = mFabriclikeUtils.iconName
                     i.versionId = versionId
                 }, versionId)
-
-                if (isHyperClientEnabled && mFabriclikeUtils.name.lowercase() == "fabric") {
-                    installHyperClientMods(instance, gameVersion, hyperClientVersionId)
-                }
 
                 withContext(Dispatchers.Main) {
                     getListenerProxy()?.onDownloadFinished(null)
@@ -136,39 +122,6 @@ abstract class FabriclikeInstallFragment(
                 withContext(Dispatchers.Main) {
                     HyperUtils.showErrorRemote(e)
                 }
-            }
-        }
-    }
-
-    private suspend fun installHyperClientMods(instance: Instance, gameVersion: String, hyperClientVersionId: String?) {
-        val modsFolder = File(instance.gameDirectory, "mods")
-        modsFolder.mkdirs()
-
-        val modsToInstall = listOf("hyperclient", "fabric-api", "modmenu")
-        modsToInstall.forEach { modId ->
-            try {
-                val versions = ModrinthService.getProjectVersions(modId)
-                val compatibleVersion = if (modId == "hyperclient" && hyperClientVersionId != null) {
-                    versions.find { it.id == hyperClientVersionId }
-                } else {
-                    versions.firstOrNull { v ->
-                        v.gameVersions.contains(gameVersion) && v.loaders.any { it.equals("fabric", ignoreCase = true) }
-                    }
-                }
-
-                if (compatibleVersion != null) {
-                    val url = URL(compatibleVersion.downloadUrl)
-                    val fileName = compatibleVersion.downloadUrl.substringAfterLast("/")
-                    val destFile = File(modsFolder, fileName)
-
-                    url.openStream().use { input ->
-                        destFile.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("FabriclikeInstall", "Failed to install mod $modId", e)
             }
         }
     }

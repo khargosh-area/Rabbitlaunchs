@@ -165,8 +165,8 @@
         <package android:name="git.mojo.ffmpeg"/>
         <package android:name="git.mojo.angle"/>
         <package android:name="git.mojo.zink"/>
-        <package android:name="net.ashmeet.hyperlauncher"/>
-        <package android:name="net.ashmeet.hyperlauncher.debug"/>
+        <package android:name="net.khargosh.rabbitlauncher"/>
+        <package android:name="net.khargosh.rabbitlauncher.debug"/>
         <intent>
             <action android:name="android.intent.action.MAIN" />
         </intent>

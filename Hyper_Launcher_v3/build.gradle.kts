@@ -86,7 +86,7 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
     }
 
     defaultConfig {
-        applicationId = "net.ashmeet.hyperlauncher"
+        applicationId = "net.khargosh.rabbitlauncher"
         minSdk = 27
         targetSdk = 37
 
@@ -148,8 +148,8 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("customDebug")
-            resValue("string", "application_package", "net.ashmeet.hyperlauncher.debug")
-            resValue("string", "storageProviderAuthorities", "net.ashmeet.hyperlauncher.scoped.gamefolder.debug")
+            resValue("string", "application_package", "net.khargosh.rabbitlauncher.debug")
+            resValue("string", "storageProviderAuthorities", "net.khargosh.rabbitlauncher.scoped.gamefolder.debug")
         }
         create("proguard") {
             initWith(getByName("debug"))
@@ -167,8 +167,8 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            resValue("string", "storageProviderAuthorities", "net.ashmeet.hyperlauncher.scoped.gamefolder")
-            resValue("string", "application_package", "net.ashmeet.hyperlauncher")
+            resValue("string", "storageProviderAuthorities", "net.khargosh.rabbitlauncher.scoped.gamefolder")
+            resValue("string", "application_package", "net.khargosh.rabbitlauncher")
         }
 
         create("gplay") {
