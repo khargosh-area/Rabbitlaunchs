@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import com.ashmeet.hyperlauncher.components.menu.HyperDropdownTextField
 import com.ashmeet.hyperlauncher.components.switch.DefaultSwitch
 import com.ashmeet.hyperlauncher.screens.settings.preferences.LauncherPreferences
