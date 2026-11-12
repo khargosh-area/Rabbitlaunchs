@@ -90,6 +90,46 @@ object HorizonInstaller {
         return files != null && files.any { it.name != "installed.flag" }
     }
 
+    private fun showInstallFailure(
+        context: Context,
+        progressDialog: Dialog,
+        onComplete: () -> Unit,
+        errorMessage: String?
+    ) {
+        progressDialog.dismiss()
+
+        val details = errorMessage?.takeIf { it.isNotBlank() }
+            ?: "Horizon could not prepare the game resources."
+        val isDnsFailure = details.contains("dns", ignoreCase = true) ||
+            details.contains("resolve", ignoreCase = true) ||
+            details.contains("UnknownHost", ignoreCase = true)
+
+        val title = if (isDnsFailure) {
+            "Can't reach Minecraft's asset server"
+        } else {
+            "Installation Failed"
+        }
+        val message = if (isDnsFailure) {
+            "Rabbit could not resolve resources.download.minecraft.net. This is a network/DNS lookup failure, not a renderer or game-version error.\n\n" +
+                "Try these steps:\n" +
+                "1. Check that Wi-Fi or mobile data is connected.\n" +
+                "2. Set Android Private DNS to Automatic (Settings → Network/Connections → Private DNS).\n" +
+                "3. Temporarily disable a VPN or DNS-based ad blocker, then retry.\n\n" +
+                "Original error:\n$details"
+        } else {
+            details
+        }
+
+        MaterialAlertDialogBuilder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton("Close", null)
+            .setPositiveButton("Retry") { _, _ ->
+                showInstallDialogAndRun(context, onComplete)
+            }
+            .show()
+    }
+
     fun showInstallDialogAndRun(context: Context, onComplete: () -> Unit) {
         val homeDir = getHorizonHomeDir(context)
         if (!homeDir.exists()) {
@@ -167,15 +207,16 @@ object HorizonInstaller {
 
                             override fun onComplete(success: Boolean, errorMessage: String?) {
                                 HyperUtils.runOnUiThread {
-                                    dialog.dismiss()
                                     if (success) {
+                                        dialog.dismiss()
                                         onComplete()
                                     } else {
-                                        MaterialAlertDialogBuilder(context)
-                                            .setTitle("Installation Failed")
-                                            .setMessage(errorMessage ?: "Horizon Engine resources could not be prepared.")
-                                            .setPositiveButton("OK", null)
-                                            .show()
+                                        showInstallFailure(
+                                            context = context,
+                                            progressDialog = dialog,
+                                            onComplete = onComplete,
+                                            errorMessage = errorMessage
+                                        )
                                     }
                                 }
                             }
